@@ -44,17 +44,13 @@ const Icon = styled("img")(() => ({
 
 const Dock = () => {
   const applications = useDesktopManager((state) => state.applications);
+
   return (
     <DockContainer>
-      {Object.entries(applications).map(() => (
-        <>
-          <IconContainer>
-            <Icon src="./src/assets/icons/spotify_2.png" />
-          </IconContainer>
-          <IconContainer>
-            <Icon src="./src/assets/icons/spotify_2.png" />
-          </IconContainer>
-        </>
+      {Object.entries(applications).map(([id]) => (
+        <IconContainer key={id}>
+          <Icon src="./src/assets/icons/spotify_2.png" />
+        </IconContainer>
       ))}
     </DockContainer>
   );

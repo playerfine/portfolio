@@ -7,13 +7,16 @@ interface NormalizedObjects<T> {
 
 interface DesktopState {
   applications: NormalizedObjects<Application>;
-  openApplication: (id: string, application: Application) => void;
+  openApplication: (application: Application) => void;
 }
 
 const useDesktopManager = create<DesktopState>()((set) => ({
   applications: {},
-  openApplication: (id: string, application: Application) => {
+  openApplication: (application: Application) => {
     set((state) => {
+      if (!application) return state;
+
+      const id = application.id;
       const isAlreadyOpend = !!state.applications[id];
 
       if (isAlreadyOpend) {

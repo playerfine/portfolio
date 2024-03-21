@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Dock from "../Dock/Dock";
 import React from "react";
 import useDesktopManager from "./Desktop.store";
+import { APPLICATONS } from "../config";
 
 const DestopWrapper = styled("div")(() => ({
   background: "url(./src/assets/desktop.jpg) no-repeat center center fixed",
@@ -15,7 +16,7 @@ const Desktop = () => {
   const openApplication = useDesktopManager((state) => state.openApplication);
 
   React.useEffect(() => {
-    openApplication("1", { id: "1", name: "App1" });
+    openApplication(APPLICATONS.SPOTIFY);
   }, []);
 
   return (
