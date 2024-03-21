@@ -44,12 +44,17 @@ const Icon = styled("img")(() => ({
 
 const Dock = () => {
   const applications = useDesktopManager((state) => state.applications);
+  const focusApplication = useDesktopManager((state) => state.focusApplication);
 
   return (
     <DockContainer>
-      {Object.entries(applications).map(([id]) => (
-        <IconContainer key={id}>
-          <Icon src="./src/assets/icons/spotify_2.png" />
+      {Object.entries(applications).map(([id, application]) => (
+        <IconContainer
+          role="button"
+          onClick={() => focusApplication(id)}
+          key={id}
+        >
+          <Icon src={application.iconUrl} />
         </IconContainer>
       ))}
     </DockContainer>

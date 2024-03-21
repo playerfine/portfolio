@@ -6,12 +6,15 @@ interface NormalizedObjects<T> {
 }
 
 interface DesktopState {
+  focusedApplicationId: string | null;
   applications: NormalizedObjects<Application>;
   openApplication: (application: Application) => void;
+  focusApplication: (id: string) => void;
 }
 
 const useDesktopManager = create<DesktopState>()((set) => ({
   applications: {},
+  focusedApplicationId: null,
   openApplication: (application: Application) => {
     set((state) => {
       if (!application) return state;
@@ -28,6 +31,12 @@ const useDesktopManager = create<DesktopState>()((set) => ({
         applications: { ...state.applications, [id]: application },
       };
     });
+  },
+  focusApplication: (id: string) => {
+    set((state) => ({
+      ...state,
+      focusedApplicationId: id,
+    }));
   },
 }));
 

@@ -5,6 +5,12 @@ const generateApplications = () => {
     SPOTIFY: {
       id: generateId(),
       name: "Spotify",
+      iconUrl: "./src/assets/icons/spotify.png",
+    },
+    NOTES: {
+      id: generateId(),
+      name: "Notes",
+      iconUrl: "./src/assets/icons/notes.png",
     },
   };
 
