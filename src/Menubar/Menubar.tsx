@@ -13,11 +13,10 @@ const ApplicationName = styled.h5(() => ({
 
 const Menubar = () => {
   const focusedApplication = useFocusedApplication();
-  console.log(focusedApplication);
 
   return (
     <MenuBarWrapper>
-      <ApplicationName>{focusedApplication?.name || "Spotify"}</ApplicationName>
+      <ApplicationName>{focusedApplication?.name}</ApplicationName>
     </MenuBarWrapper>
   );
 };

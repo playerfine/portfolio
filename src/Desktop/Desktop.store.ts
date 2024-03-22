@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Application } from "../Application";
+import { Application, Position } from "../Application";
 
 interface NormalizedObjects<T> {
   [id: string]: T;
@@ -10,6 +10,7 @@ interface DesktopState {
   applications: NormalizedObjects<Application>;
   openApplication: (application: Application) => void;
   focusApplication: (id: string) => void;
+  moveApplicationPosition: (newPosition: Position, id: string) => void;
 }
 
 const useDesktopManager = create<DesktopState>()((set) => ({
@@ -36,6 +37,18 @@ const useDesktopManager = create<DesktopState>()((set) => ({
     set((state) => ({
       ...state,
       focusedApplicationId: id,
+    }));
+  },
+  moveApplicationPosition: (newPosition: Position, id: string) => {
+    set((state) => ({
+      ...state,
+      applications: {
+        ...state.applications,
+        [id]: {
+          ...state.applications[id],
+          position: newPosition,
+        },
+      },
     }));
   },
 }));
