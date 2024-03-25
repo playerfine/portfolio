@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Application, Position } from "../Application";
+import { ApplicationType, Position } from "../Application";
 
 interface NormalizedObjects<T> {
   [id: string]: T;
@@ -7,16 +7,18 @@ interface NormalizedObjects<T> {
 
 interface DesktopState {
   focusedApplicationId: string | null;
-  applications: NormalizedObjects<Application>;
-  openApplication: (application: Application) => void;
+  applications: NormalizedObjects<ApplicationType>;
+  openApplication: (application: ApplicationType) => void;
   focusApplication: (id: string) => void;
   moveApplicationPosition: (newPosition: Position, id: string) => void;
+  minimizeApplication: (id: string) => void;
+  unminimizeApplication: (id: string) => void;
 }
 
 const useDesktopManager = create<DesktopState>()((set) => ({
   applications: {},
   focusedApplicationId: null,
-  openApplication: (application: Application) => {
+  openApplication: (application: ApplicationType) => {
     set((state) => {
       if (!application) return state;
 
@@ -39,6 +41,7 @@ const useDesktopManager = create<DesktopState>()((set) => ({
       focusedApplicationId: id,
     }));
   },
+
   moveApplicationPosition: (newPosition: Position, id: string) => {
     set((state) => ({
       ...state,
@@ -47,6 +50,30 @@ const useDesktopManager = create<DesktopState>()((set) => ({
         [id]: {
           ...state.applications[id],
           position: newPosition,
+        },
+      },
+    }));
+  },
+  minimizeApplication: (id: string) => {
+    set((state) => ({
+      ...state,
+      applications: {
+        ...state.applications,
+        [id]: {
+          ...state.applications[id],
+          isMinimized: true,
+        },
+      },
+    }));
+  },
+  unminimizeApplication: (id: string) => {
+    set((state) => ({
+      ...state,
+      applications: {
+        ...state.applications,
+        [id]: {
+          ...state.applications[id],
+          isMinimized: false,
         },
       },
     }));

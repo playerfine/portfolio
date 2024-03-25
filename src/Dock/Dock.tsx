@@ -44,16 +44,19 @@ const Icon = styled("img")(() => ({
 
 const Dock = () => {
   const applications = useDesktopManager((state) => state.applications);
-  const focusApplication = useDesktopManager((state) => state.focusApplication);
+  const [focusApplication, unminimizeApplication] = useDesktopManager(
+    (state) => [state.focusApplication, state.unminimizeApplication],
+  );
+
+  const onIconClick = (id: string) => {
+    focusApplication(id);
+    unminimizeApplication(id);
+  };
 
   return (
     <DockContainer>
       {Object.entries(applications).map(([id, application]) => (
-        <IconContainer
-          role="button"
-          onClick={() => focusApplication(id)}
-          key={id}
-        >
+        <IconContainer role="button" onClick={() => onIconClick(id)} key={id}>
           <Icon src={application.iconUrl} />
         </IconContainer>
       ))}

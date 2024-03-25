@@ -5,7 +5,12 @@ import useDesktopManager from "./Desktop.store";
 import { APPLICATONS } from "../config";
 import { Menubar } from "../Menubar";
 import { Application } from "../Application";
-import { DndContext } from "@dnd-kit/core";
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import { ApplicationZone } from "../ApplicationZone";
 
 const DestopWrapper = styled("div")(() => ({
@@ -24,6 +29,14 @@ const Desktop = () => {
     state.applications,
   ]);
 
+  const pointerSensor = useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 0.01,
+    },
+  });
+
+  const sensors = useSensors(pointerSensor);
+
   React.useEffect(() => {
     // NOTE: Change this
     openApplication(APPLICATONS.SPOTIFY);
@@ -33,7 +46,7 @@ const Desktop = () => {
   return (
     <DestopWrapper>
       <Menubar />
-      <DndContext>
+      <DndContext sensors={sensors}>
         <ApplicationZone>
           {Object.entries(applications).map(([id, application]) => (
             <Application key={id} application={application} />

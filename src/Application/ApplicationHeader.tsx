@@ -38,12 +38,18 @@ const Maximize = styled(Action)(() => ({
   backgroundColor: "#26c840",
 }));
 
-const ApplicationHeader = () => {
+interface Props {
+  onMinimizeClicked: () => void;
+}
+
+const ApplicationHeader = (props: Props) => {
+  const { onMinimizeClicked } = props;
+
   return (
     <ApplicationHeaderWrapper>
       <Actions>
         <Close />
-        <Minimize />
+        <Minimize onClick={onMinimizeClicked} />
         <Maximize />
       </Actions>
     </ApplicationHeaderWrapper>

@@ -5,7 +5,11 @@ import { DragEndEvent, useDndMonitor, useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { ApplicationType } from ".";
 
-const ApplicationWrapper = styled.div<{ x: number; y: number }>(({ x, y }) => ({
+const ApplicationWrapper = styled.div<{
+  x: number;
+  y: number;
+  isMinimized: boolean;
+}>(({ x, y, isMinimized }) => ({
   width: 500,
   height: 500,
   backgroundColor: "#22232a",
@@ -13,6 +17,7 @@ const ApplicationWrapper = styled.div<{ x: number; y: number }>(({ x, y }) => ({
   top: y,
   left: x,
   position: "absolute",
+  display: isMinimized ? "none" : "block",
 }));
 
 interface Props {
@@ -20,8 +25,8 @@ interface Props {
 }
 
 const Application = ({ application }: Props) => {
-  const moveApplicationPosition = useDesktopManager(
-    (state) => state.moveApplicationPosition,
+  const [moveApplicationPosition, minimizeApplication] = useDesktopManager(
+    (state) => [state.moveApplicationPosition, state.minimizeApplication],
   );
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -43,6 +48,10 @@ const Application = ({ application }: Props) => {
     );
   };
 
+  const onMinimizeClicked = () => {
+    minimizeApplication(application.id);
+  };
+
   useDndMonitor({
     onDragEnd: handleDragEnd,
   });
@@ -53,10 +62,11 @@ const Application = ({ application }: Props) => {
       style={style}
       x={application?.position.x}
       y={application?.position.y}
+      isMinimized={application.isMinimized}
       {...listeners}
       {...attributes}
     >
-      <ApplicationHeader />
+      <ApplicationHeader onMinimizeClicked={onMinimizeClicked} />
     </ApplicationWrapper>
   );
 };

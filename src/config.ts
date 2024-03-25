@@ -9,12 +9,14 @@ const generateApplications = () => {
       name: "Spotify",
       iconUrl: "./src/assets/icons/spotify.png",
       position: DEFAULT_POSITION,
+      isMinimized: true,
     },
     NOTES: {
       id: generateId(),
       name: "Notes",
       iconUrl: "./src/assets/icons/notes.png",
       position: DEFAULT_POSITION,
+      isMinimized: true,
     },
   };
 

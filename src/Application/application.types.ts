@@ -3,6 +3,7 @@ export interface Application {
   name: string;
   iconUrl: string;
   position: Position;
+  isMinimized: boolean;
 }
 
 export type Position = {
