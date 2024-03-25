@@ -4,6 +4,7 @@ import { useDesktopManager } from "../Desktop";
 import { DragEndEvent, useDndMonitor, useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { ApplicationType } from ".";
+import React from "react";
 
 const ApplicationWrapper = styled.div<{
   x: number;
@@ -24,7 +25,7 @@ interface Props {
   application: ApplicationType;
 }
 
-const Application = ({ application }: Props) => {
+const Application = React.memo(({ application }: Props) => {
   const [moveApplicationPosition, minimizeApplication] = useDesktopManager(
     (state) => [state.moveApplicationPosition, state.minimizeApplication],
   );
@@ -43,10 +44,12 @@ const Application = ({ application }: Props) => {
     const { x, y } = event.delta;
 
     moveApplicationPosition(
-      { x: (application.position.x += x), y: (application.position.y += y) },
+      { x: application.position.x + x, y: application.position.y + y },
       application.id,
     );
   };
+
+  application.name = "kippensoep";
 
   const onMinimizeClicked = () => {
     minimizeApplication(application.id);
@@ -66,9 +69,12 @@ const Application = ({ application }: Props) => {
       {...listeners}
       {...attributes}
     >
-      <ApplicationHeader onMinimizeClicked={onMinimizeClicked} />
+      <ApplicationHeader
+        name={application.name}
+        onMinimizeClicked={onMinimizeClicked}
+      />
     </ApplicationWrapper>
   );
-};
+});
 
 export default Application;

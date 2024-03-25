@@ -39,6 +39,7 @@ const Maximize = styled(Action)(() => ({
 }));
 
 interface Props {
+  name: string;
   onMinimizeClicked: () => void;
 }
 
@@ -52,6 +53,7 @@ const ApplicationHeader = (props: Props) => {
         <Minimize onClick={onMinimizeClicked} />
         <Maximize />
       </Actions>
+      {props.name}
     </ApplicationHeaderWrapper>
   );
 };

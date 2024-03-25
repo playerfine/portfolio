@@ -19,6 +19,7 @@ const useDesktopManager = create<DesktopState>()((set) => ({
   applications: {},
   focusedApplicationId: null,
   openApplication: (application: ApplicationType) => {
+    console.log("minimizeApplication");
     set((state) => {
       if (!application) return state;
 
