@@ -10,9 +10,10 @@ const ApplicationWrapper = styled.div<{
   x: number;
   y: number;
   isMinimized: boolean;
-}>(({ x, y, isMinimized }) => ({
-  width: 500,
-  height: 500,
+  isMaximized: boolean;
+}>(({ x, y, isMinimized, isMaximized }) => ({
+  width: isMaximized ? "100%" : 500,
+  height: isMaximized ? "100%" : 500,
   backgroundColor: "#22232a",
   borderRadius: 12,
   top: y,
@@ -26,9 +27,12 @@ interface Props {
 }
 
 const Application = React.memo(({ application }: Props) => {
-  const [moveApplicationPosition, minimizeApplication] = useDesktopManager(
-    (state) => [state.moveApplicationPosition, state.minimizeApplication],
-  );
+  const [moveApplicationPosition, minimizeApplication, maximizeApplication] =
+    useDesktopManager((state) => [
+      state.moveApplicationPosition,
+      state.minimizeApplication,
+      state.maximizeApplication,
+    ]);
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: application.id,
@@ -49,10 +53,12 @@ const Application = React.memo(({ application }: Props) => {
     );
   };
 
-  application.name = "kippensoep";
-
   const onMinimizeClicked = () => {
     minimizeApplication(application.id);
+  };
+
+  const onMaximizeClicked = () => {
+    maximizeApplication(application.id);
   };
 
   useDndMonitor({
@@ -66,12 +72,14 @@ const Application = React.memo(({ application }: Props) => {
       x={application?.position.x}
       y={application?.position.y}
       isMinimized={application.isMinimized}
+      isMaximized={application.isMaximized}
       {...listeners}
       {...attributes}
     >
       <ApplicationHeader
         name={application.name}
         onMinimizeClicked={onMinimizeClicked}
+        onMaximizeClicked={onMaximizeClicked}
       />
     </ApplicationWrapper>
   );

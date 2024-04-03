@@ -4,6 +4,7 @@ export interface Application {
   iconUrl: string;
   position: Position;
   isMinimized: boolean;
+  isMaximized: boolean;
 }
 
 export type Position = {

@@ -13,6 +13,7 @@ interface DesktopState {
   moveApplicationPosition: (newPosition: Position, id: string) => void;
   minimizeApplication: (id: string) => void;
   unminimizeApplication: (id: string) => void;
+  maximizeApplication: (id: string) => void;
 }
 
 const useDesktopManager = create<DesktopState>()((set) => ({
@@ -75,6 +76,19 @@ const useDesktopManager = create<DesktopState>()((set) => ({
         [id]: {
           ...state.applications[id],
           isMinimized: false,
+        },
+      },
+    }));
+  },
+  maximizeApplication: (id: string) => {
+    set((state) => ({
+      ...state,
+      applications: {
+        ...state.applications,
+        [id]: {
+          ...state.applications[id],
+          isMaximized: true,
+          position: { x: 0, y: 0 },
         },
       },
     }));

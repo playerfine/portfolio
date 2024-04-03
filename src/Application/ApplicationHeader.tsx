@@ -41,17 +41,18 @@ const Maximize = styled(Action)(() => ({
 interface Props {
   name: string;
   onMinimizeClicked: () => void;
+  onMaximizeClicked: () => void;
 }
 
 const ApplicationHeader = (props: Props) => {
-  const { onMinimizeClicked } = props;
+  const { onMinimizeClicked, onMaximizeClicked } = props;
 
   return (
     <ApplicationHeaderWrapper>
       <Actions>
         <Close />
         <Minimize onClick={onMinimizeClicked} />
-        <Maximize />
+        <Maximize onClick={onMaximizeClicked} />
       </Actions>
       {props.name}
     </ApplicationHeaderWrapper>
